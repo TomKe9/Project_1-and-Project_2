@@ -56,22 +56,17 @@ else:
     print("Unregistered user, terminating the program...")
     exit()
 
-# Výběr textu k analýze
 selected_text = input("Enter a number btw. 1 and 3 to select: ")
 
-# Zkontrolovat platný výběr
 if not selected_text.isdigit() or int(selected_text) < 1 or int(selected_text) > len(TEXTS):
     print("Invalid selection, terminating the program...")
     exit()
 
-# Implementace analýzy textu
 selected_text = int(selected_text) - 1  # Převedení na index v seznamu
 text = TEXTS[selected_text]
 
-# Rozdělení textu na slova
 words = text.split()
 
-# Inicializace statistik
 word_count = 0
 titlecase_words = 0
 uppercase_words = 0
@@ -80,7 +75,6 @@ numeric_strings = 0
 numeric_sum = 0
 word_lengths = {}
 
-# Analýza slov
 for word in words:
     # Počet slov
     word_count += 1
@@ -97,7 +91,7 @@ for word in words:
     if word.islower():
         lowercase_words += 1
     
-    # Počet čísel (ne cifer)
+    # Počet čísel
     if word.isdigit():
         numeric_strings += 1
         numeric_sum += int(word)
@@ -109,7 +103,6 @@ for word in words:
     else:
         word_lengths[word_length] = 1
 
-# Výstup statistik
 print(f"There are {word_count} words in the selected text.")
 print(f"There are {titlecase_words} titlecase words.")
 print(f"There are {uppercase_words} uppercase words.")
@@ -117,7 +110,7 @@ print(f"There are {lowercase_words} lowercase words.")
 print(f"There are {numeric_strings} numeric strings.")
 print(f"The sum of all the numbers {numeric_sum}")
 
-# Vykreslení grafu
+# Graf
 print("\nLEN|  OCCURRENCES  |NR.")
 print("-" * 25)
 for length, occurrences in sorted(word_lengths.items()):
