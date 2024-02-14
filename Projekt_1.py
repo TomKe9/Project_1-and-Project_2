@@ -56,13 +56,16 @@ else:
     print("Unregistered user, terminating the program...")
     exit()
 
-selected_text = input("Enter a number btw. 1 and 3 to select: ")
+# Ověření uživatelova vstupu pro výběr textu
+while True:
+    selected_text = input("Enter a number btw. 1 and 3 to select: ")
+    if selected_text.isdigit():
+        selected_text = int(selected_text)
+        if 1 <= selected_text <= len(TEXTS):
+            break
+    print("Invalid input. Please enter a number between 1 and", len(TEXTS))
 
-if not selected_text.isdigit() or int(selected_text) < 1 or int(selected_text) > len(TEXTS):
-    print("Invalid selection, terminating the program...")
-    exit()
-
-selected_text = int(selected_text) - 1  # Převedení na index v seznamu
+selected_text = selected_text - 1  # Převedení na index v seznamu
 text = TEXTS[selected_text]
 
 words = text.split()
@@ -115,4 +118,3 @@ print("\nLEN|  OCCURRENCES  |NR.")
 print("-" * 25)
 for length, occurrences in sorted(word_lengths.items()):
     print(f"{length:3}|{'*' * occurrences:14}|{occurrences}")
-
