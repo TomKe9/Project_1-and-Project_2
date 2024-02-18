@@ -6,8 +6,6 @@ email: tomas.filipsky@email.cz
 discord: tomas_53249
 """
 
-import Projekt_1
-
 # zaregistrovaní uživatelé
 registrovani_uzivatele = {
     "bob": "123",
@@ -87,7 +85,7 @@ for word in words:
         titlecase_words += 1
         
     # Počet slov psaných velkými písmeny
-    if word.isupper():
+    if word.isupper() and word.isalpha():
         uppercase_words += 1
         
     # Počet slov psaných malými písmeny
