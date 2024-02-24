@@ -69,7 +69,7 @@ while True:
             break
     print("Invalid input. Please enter a number between 1 and", len(TEXTS))
 
-selected_text = selected_text - 1  # Převedení na index v seznamu
+selected_text = selected_text - 1
 text = TEXTS[selected_text]
 
 words = text.split()
