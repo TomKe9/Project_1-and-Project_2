@@ -15,9 +15,10 @@ def pozdrav():
     print("-" * 25)
 
 def generuj_tajne_cislo(length=4):
-    cislice = list(range(10))
-    cislice.remove(0) 
+    cislice = list(range(10))  # Zahrnujeme 0 jako možnou číslici
     random.shuffle(cislice)
+    while cislice[0] == 0:  # Zajistíme, že tajné číslo nezačíná nulou
+        random.shuffle(cislice)
     return ''.join(map(str, cislice[:4]))
 
 def ohodnot_tah(tajne_cislo, tip):
