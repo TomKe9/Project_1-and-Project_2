@@ -15,7 +15,8 @@ def pozdrav():
     print("-" * 25)
 
 def generuj_tajne_cislo(length=4):
-    cislice = list(range(1, 10))
+    cislice = list(range(10))
+    cislice.remove(0) 
     random.shuffle(cislice)
     return ''.join(map(str, cislice[:4]))
 
