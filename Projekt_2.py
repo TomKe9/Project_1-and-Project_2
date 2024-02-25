@@ -6,21 +6,16 @@ email: tomas.filipsky@email.cz
 discord: tomas_53249
 """
 
-import Projekt_2
-
-# Úvodní text
 import random 
 
 def pozdrav():
-
     print("Hi there!")
     print("-" * 25)
     print("I've generated a random 4 digit number for you.", "Let's play a bulls and cows game.", sep="\n")
     print("-" * 25)
 
-
 def generuj_tajne_cislo(lenght=4):
-    cislice = list(range(10))
+    cislice = list(range(1, 10))  # Změna rozsahu na 1 až 9, aby se vyhnuli nule na začátku
     random.shuffle(cislice)
     return cislice[:4]
 
