@@ -6,6 +6,8 @@ email: tomas.filipsky@email.cz
 discord: tomas_53249
 """
 
+import re
+
 # zaregistrovaní uživatelé
 registrovani_uzivatele = {
     "bob": "123",
@@ -72,7 +74,8 @@ while True:
 selected_text = selected_text - 1
 text = TEXTS[selected_text]
 
-words = text.split()
+# Tokenizace textu s odstraněním teček a čárek
+words = re.findall(r'\b\w+\b', text)
 
 word_count = 0
 titlecase_words = 0
@@ -120,5 +123,6 @@ print(f"The sum of all the numbers {numeric_sum}")
 # Graf
 print("\nLEN|  OCCURRENCES  |NR.")
 print("-" * 25)
-for length, occurrences in sorted(word_lengths.items()):
-    print(f"{length:3}|{'*' * occurrences:14}|{occurrences}")
+for length in range(1, max(word_lengths.keys()) + 1):
+    occurrences = word_lengths.get(length, 0)
+    print(f"{length:3}|{'*' * occurrences:<17}|{occurrences}")
