@@ -29,6 +29,21 @@ def ziskat_radky_tabulky(soup: BeautifulSoup) -> list:
     return radky_tabulky
 
 def extrahovat_info_o_hlasovani(zpracovana_url):
+    """
+    Extrahuje informace o hlasování z webové stránky zpracované pomocí BeautifulSoup.
+
+    Parametry:
+    zpracovana_url (list): Seznam zpracovaných URL s informacemi o hlasování.
+
+    Návratové hodnoty:
+    tuple: Čtyři seznamy obsahující informace o hlasování.
+        1. Seznam počtu voličů v seznamu.
+        2. Seznam počtu vydání obálek.
+        3. Seznam počtu platných hlasů.
+        4. Seznam seznamů počtů hlasů pro každou kandidující stranu.
+
+    Pokud není nalezena žádná data nebo jsou chybějící, funkce vrátí None.
+    """
     volici_v_seznamu = []
     vydane_obalky = []
     platne_hlasy = []
@@ -58,7 +73,19 @@ def extrahovat_info_o_hlasovani(zpracovana_url):
     return volici_v_seznamu, vydane_obalky, platne_hlasy, kandidujici_strany
 
 def ziskat_url(soup: BeautifulSoup) -> list:
-    # Získání seznamu URL z HTML
+    """
+    Získá seznam URL odkazů z objektu BeautifulSoup obsahujícího HTML stránku.
+
+    Parametry:
+    soup (BeautifulSoup): Objekt BeautifulSoup reprezentující zpracovanou HTML stránku.
+
+    Návratová hodnota:
+    list: Seznam URL odkazů.
+
+    Funkce prochází tabulky na stránce a hledá odkazy v těchto tabulkách.
+    Pokud odkaz obsahuje řetězec "vyber=" a není již v seznamu, přidá ho do seznamu.
+    Nakonec vrátí tento seznam URL odkazů.
+    """
     tabulky = soup.find_all('table')
     seznam_url = []
     for tabulka in tabulky:
@@ -70,7 +97,18 @@ def ziskat_url(soup: BeautifulSoup) -> list:
     return seznam_url
 
 def ziskat_zpracovatelne_url(seznam_url: list) -> list:
-    # Zpracování každé URL a vytvoření úplné URL pro zpracování
+    """
+    Získá zpracovatelná URL zkrácením základní URL a připojením odkazů ze vstupního seznamu.
+
+    Parametry:
+    seznam_url (list): Seznam URL odkazů ke zpracování.
+
+    Návratová hodnota:
+    list: Seznam úplných URL k zpracování.
+
+    Každá URL zkrácením o základní část zakladni_url a připojením URL ze vstupního seznamu.
+    Funkce vrátí seznam těchto úplných URL, které jsou připraveny k zpracování.
+    """
     zakladni_url = "https://volby.cz/pls/ps2017nss/"
     zpracovatelne_url = [zakladni_url + url for url in seznam_url]
     return zpracovatelne_url
@@ -97,6 +135,29 @@ def ziskat_nazvy_politickych_stran(soup: BeautifulSoup) -> list:
     return politicka_strana
 
 def hlavni(url: str):
+    """
+    Hlavní funkce pro zpracování informací o výsledcích voleb z webové stránky.
+
+    Parametry:
+    url (str): Adresa URL stránky obsahující informace o výsledcích voleb.
+
+    Návratová hodnota:
+    dict: Slovník obsahující záhlaví CSV souboru a data pro zápis.
+
+    Funkce provede následující kroky:
+    1. Získá odpověď z webového serveru pro zadanou URL.
+    2. Zpracuje odpověď pomocí parsování do objektu BeautifulSoup.
+    3. Získá řádky tabulky obsahující informace o výsledcích voleb.
+    4. Extrahuje kódy a názvy měst z tabulky.
+    5. Získá seznam URL odkazů na podrobnější informace o výsledcích voleb.
+    6. Získá úplné zpracovatelné URL odkazy.
+    7. Zpracuje URL a extrahuje informace o hlasování.
+    8. Získá názvy politických stran.
+    9. Vytvoří záhlaví CSV souboru.
+    10. Vytvoří data pro zápis do CSV.
+
+    Návratová hodnota je slovník obsahující záhlaví CSV souboru a data pro zápis.
+    """
     odpoved = ziskat_odpoved(url)
     soup = parsovat_odpoved(odpoved)
     radky_tabulky = ziskat_radky_tabulky(soup)
@@ -118,7 +179,17 @@ def hlavni(url: str):
     return {"zahalvi": zahlavi, "data": data}
 
 def do_csv(nazev_souboru: str, data):
-    # Zápis dat do CSV souboru
+    """
+    Zápis dat do CSV souboru.
+
+    Parametry:
+    nazev_souboru (str): Název CSV souboru, do kterého se mají data zapsat.
+    data (dict): Slovník obsahující záhlaví CSV souboru a data pro zápis.
+
+    Funkce zapisuje data do CSV souboru se zadaným názvem. Pokud soubor již existuje, bude přepsán.
+
+    Pokud se při zápisu do souboru vyskytne chyba oprávnění, funkce vypíše chybové hlášení a ukončí běh programu.
+    """
     try:
         with open(nazev_souboru, mode="w", encoding="utf-8-sig", newline="") as soubor:
             writer = csv.writer(soubor, delimiter=";")
