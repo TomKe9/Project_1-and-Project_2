@@ -28,13 +28,6 @@ def ziskat_radky_tabulky(soup: BeautifulSoup) -> list:
     radky_tabulky = [radek.get_text().strip().splitlines() for radek in radky]
     return radky_tabulky
 
-def extrahovat_info_o_hlasovani(zpracovana_url: list) -> list:
-    # Extrahování informací o hlasování
-    volici_v_seznamu = []
-    vydane_obalky = []
-    platne_hlasy = []
-    kandidujici_strany = []
-
 def extrahovat_info_o_hlasovani(zpracovana_url):
     volici_v_seznamu = []
     vydane_obalky = []
