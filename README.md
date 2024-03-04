@@ -21,3 +21,8 @@ Výsledky hlasování pro okres Trutnov:
 python Projekt_3.py "https://volby.cz/pls ps2017nss/ps32xjazyk=CZ&xkraj=8&xnumnuts=5205" "vysledky_trutnov.csv"
 
 **Průběh stahování:**
+Začínám stahovat a zpracovávat data...
+Zahajuji zápis do CSV souboru...
+Soubor vysledky_trutnov.csv byl úspěšně vytvořen.
+
+**Částečný výstup:**
