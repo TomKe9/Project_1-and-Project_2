@@ -35,26 +35,33 @@ def extrahovat_info_o_hlasovani(zpracovana_url: list) -> list:
     platne_hlasy = []
     kandidujici_strany = []
 
-def zpracuj_data(zpracovana_url):
+def extrahovat_info_o_hlasovani(zpracovana_url):
     volici_v_seznamu = []
     vydane_obalky = []
     platne_hlasy = []
     kandidujici_strany = []
 
     for url in zpracovana_url:
-        volici = int(url.find("td", {"class": "cislo"}, headers="sa2").get_text().replace("\xa0", ""))
-        volici_v_seznamu.append(volici)
+        volici = url.find("td", {"class": "cislo"}, headers="sa2").get_text()
+        volici_v_seznamu.append(int(volici.replace("\xa0", "")))
 
-        obalka = int(url.find("td", {"class": "cislo"}, headers="sa3").get_text().replace("\xa0", ""))
-        vydane_obalky.append(obalka)
+        obalka = url.find("td", {"class": "cislo"}, headers="sa3").get_text()
+        vydane_obalky.append(int(obalka.replace("\xa0", "")))
 
-        hlas = int(url.find("td", {"class": "cislo"}, headers="sa6").get_text().replace("\xa0", ""))
-        platne_hlasy.append(hlas)
+        hlas = url.find("td", {"class": "cislo"}, headers="sa6").get_text()
+        platne_hlasy.append(int(hlas.replace("\xa0", "")))
 
         hlasy = url.find_all("td", headers=["t1sb3", "t2sb3"])
-        kazda_stranicka_hlasy = [int(h.get_text().replace("\xa0", "")) for h in hlasy if h.get_text().strip() != "-"]
+        kazda_stranicka_hlasy = []
+        for hlas in hlasy:
+            if hlas.get_text().strip() != "-":
+                kazda_stranicka_hlasy.append(int(hlas.get_text().replace("\xa0", "")))
         kandidujici_strany.append(kazda_stranicka_hlasy)
 
+    # Přesvědčte se, že máte správné návratové hodnoty
+    if not volici_v_seznamu or not vydane_obalky or not platne_hlasy or not kandidujici_strany:
+        return None
+    
     return volici_v_seznamu, vydane_obalky, platne_hlasy, kandidujici_strany
 
 def ziskat_url(soup: BeautifulSoup) -> list:
